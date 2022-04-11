@@ -45,6 +45,15 @@ To generate a runnable JAR of the project, run:
 docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean jar
 ```
 
+## Tests
+
+All tests in the project are developed using [JUnit 4][8].
+
+To execute all tests (with live reload), run:
+```bash
+docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --continuous test
+```
+
 ## Execution
 
 To execute the project in development mode (with live reload), run:
@@ -76,3 +85,4 @@ docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workd
 [5]: https://pre-commit.com
 [6]: https://github.com/pinterest/ktlint
 [7]: https://github.com/detekt/detekt
+[8]: https://junit.org/junit4
