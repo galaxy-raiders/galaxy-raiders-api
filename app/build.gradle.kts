@@ -24,6 +24,9 @@ plugins {
   // Apply the Test Logger plugin to print test results in the test task.
   id("com.adarshr.test-logger") version "3.2.0"
 
+  // Apply the Shadow JAR Plugin to generate a standalone uber Jar.
+  id("com.github.johnrengelman.shadow") version "7.1.2"
+
   // Apply the Kover plugin to better support Kotlin code coverage.
   id("org.jetbrains.kotlinx.kover") version "0.5.0"
 
@@ -78,4 +81,17 @@ tasks.test {
 // Require tests to run before generating the Jacoco test coverage report.
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+// Configure the metadata to generate an uber JAR.
+tasks.shadowJar {
+  archiveBaseName.set("galaxy-raiders")
+  archiveVersion.set("")
+  archiveClassifier.set("")
+}
+
+// Configure Gradle to send its stdin to the program.
+// https://stackoverflow.com/questions/13172137/console-application-with-java-and-gradle
+tasks.getByName("runShadow", JavaExec::class) {
+  standardInput = System.`in`
 }
