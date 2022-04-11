@@ -30,19 +30,22 @@ pre-commit run --all-files
 
 Alternatively, to execute the linters manually, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon formatKotlin detekt
+docker compose --profile dev run --rm linter
 ```
 
 ## Compilation
 
-To compile all classes in the project, run:
+The compilation of all classes and the generation of a runnable self-contained
+JAR is made "behind the scenes" by [docker][4].
+
+To build the development images, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean assemble
+docker compose --profile dev build
 ```
 
-To generate a runnable self-contained JAR of the project, run:
+To build the production images, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean shadowJar
+docker compose --profile prod build
 ```
 
 ## Tests
@@ -51,32 +54,31 @@ All tests in the project are developed using [JUnit 5][8].
 
 To execute all tests (with live reload), run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --continuous test
+docker compose --profile dev up tester
 ```
 
 ## Execution
 
 To execute the project in development mode (with live reload), run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --continuous run
+docker compose --profile dev up demo --build
 ```
 
-To execute the project in production mode, generate a runnable self-contained
-JAR of the project, then run:
+To execute the project in production mode, run:
 ```bash
-docker container run --rm --volume "$PWD"/app/build/libs/galaxy-raiders.jar:/bin/runner/galaxy-raiders.jar --workdir /bin/runner eclipse-temurin:17-jdk java -jar galaxy-raiders.jar
+docker compose --profile prod up game --build
 ```
 
 ## Other tasks
 
 To find available gradle tasks, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle tasks
+docker compose --profile dev run --rm demo gradle --no-daemon tasks
 ```
 
 To execute any task, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle {task}
+docker compose --profile dev run --rm demo gradle --no-daemon {task}
 ```
 
 [1]: https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=MAC0218

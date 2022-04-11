@@ -1,0 +1,48 @@
+services:
+  # The `game` service is the production app for end users.
+  game:
+    image: "${GALAXY_RAIDERS_IMAGE}:${GALAXY_RAIDERS_VERSION}"
+    build:
+      context: .
+      target: "runner"
+    profiles:
+      - "prod"
+
+  # The `linter` service allows running all linters.
+  # Whenever a file changes, Gradle will rerun detekt and ktlint.
+  linter:
+    image: "${GALAXY_RAIDERS_IMAGE}:${GALAXY_RAIDERS_VERSION}"
+    build:
+      context: .
+      target: "base"
+    command: "gradle formatKotlin detekt"
+    volumes:
+      - "./:/home/gradle/galaxy-raiders/"
+    profiles:
+      - "dev"
+
+  # The `tester` service allows running all tests.
+  # Whenever a file changes, JUnit will rerun all tests related to it.
+  tester:
+    image: "${GALAXY_RAIDERS_IMAGE}:${GALAXY_RAIDERS_VERSION}"
+    build:
+      context: .
+      target: "base"
+    command: "gradle --continuous test"
+    volumes:
+      - "./:/home/gradle/galaxy-raiders/"
+    profiles:
+      - "dev"
+
+  # The `demo` service allows running the application.
+  # Whenever a file changes, the app will be restarted automatically.
+  demo:
+    image: "${GALAXY_RAIDERS_IMAGE}:${GALAXY_RAIDERS_VERSION}"
+    build:
+      context: .
+      target: "base"
+    command: "gradle --continuous runShadow"
+    volumes:
+      - "./:/home/gradle/galaxy-raiders/"
+    profiles:
+      - "dev"
