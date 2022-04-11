@@ -40,9 +40,9 @@ To compile all classes in the project, run:
 docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean assemble
 ```
 
-To generate a runnable JAR of the project, run:
+To generate a runnable self-contained JAR of the project, run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean jar
+docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon clean shadowJar
 ```
 
 ## Tests
@@ -61,9 +61,10 @@ To execute the project in development mode (with live reload), run:
 docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --continuous run
 ```
 
-To execute the project in production mode, generate a runnable JAR, then run:
+To execute the project in production mode, generate a runnable self-contained
+JAR of the project, then run:
 ```bash
-docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 java -jar ./app/build/libs/app.jar
+docker container run --rm --volume "$PWD"/app/build/libs/galaxy-raiders.jar:/bin/runner/galaxy-raiders.jar --workdir /bin/runner eclipse-temurin:17-jdk java -jar galaxy-raiders.jar
 ```
 
 ## Other tasks

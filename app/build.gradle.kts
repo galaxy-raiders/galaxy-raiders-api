@@ -23,6 +23,9 @@ plugins {
 
   // Apply the Test Logger plugin to print test results in the test task.
   id("com.adarshr.test-logger") version "3.2.0"
+
+  // Apply the Shadow JAR Plugin to generate a standalone uber Jar.
+  id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 repositories {
@@ -62,4 +65,11 @@ testlogger {
 // Enable support to JUnit Platform to execute JUnit 5 tests.
 tasks.test {
   useJUnitPlatform()
+}
+
+// Configure the metadata to generate an uber JAR.
+tasks.shadowJar {
+  archiveBaseName.set("galaxy-raiders")
+  archiveVersion.set("")
+  archiveClassifier.set("")
 }
