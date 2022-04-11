@@ -15,6 +15,6 @@ repos:
     name: Run Kotlin linters
     description: This hook runs Gradle to execute linters
     language: system
-    entry: bash -c "docker container run --rm --user gradle --volume $PWD:/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon formatKotlin detekt"
+    entry: docker compose --profile dev run --rm linter
     types: [kotlin]
     pass_filenames: false
