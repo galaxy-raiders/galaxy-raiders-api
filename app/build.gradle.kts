@@ -37,11 +37,11 @@ dependencies {
   // Use the Kotlin JDK 8 standard library.
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  // Use the Kotlin test library.
-  testImplementation("org.jetbrains.kotlin:kotlin-test")
+  // Use the Kotlin JUnit 5 integration.
+  testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.6.21")
 
-  // Use the Kotlin JUnit integration.
-  testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+  // Allow JUnit 5 parameterized tests
+  testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
 }
 
 application {
@@ -60,4 +60,9 @@ tasks.jar {
 // https://github.com/radarsh/gradle-test-logger-plugin#configuration
 testlogger {
   theme = ThemeType.MOCHA
+}
+
+// Enable support to JUnit Platform to execute JUnit 5 tests.
+tasks.test {
+  useJUnitPlatform()
 }
