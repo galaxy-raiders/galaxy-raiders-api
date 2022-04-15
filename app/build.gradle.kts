@@ -12,6 +12,12 @@ plugins {
 
   // Apply the application plugin to add support for building a CLI application in Java.
   application
+
+  // Apply the KTLint plugin to check and auto format Kotlin code.
+  id("org.jmailen.kotlinter") version "3.10.0"
+
+  // Apply the Detekt plugin to make static code analysis of Kotlin code.
+  id("io.gitlab.arturbosch.detekt") version "1.20.0"
 }
 
 repositories {

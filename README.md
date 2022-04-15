@@ -15,6 +15,24 @@ To develop Galaxy Raiders, please install and use [docker][4].
 > of gradle in every environment. However, using gradle's docker image already
 > guarantees that. Therefore, commands below can use the `gradle` CLI directly.
 
+Please also install [pre-commit][5] in your development environment to
+automatically format code and to detect bed smells before making new commits.
+By default, this integration also uses [docker][4].
+
+## Linting
+
+This project uses [ktlint][6] and [detekt][7] for static code analysis.
+
+If you installed [pre-commit][5], to execute the linters, run:
+```bash
+pre-commit run --all-files
+```
+
+Alternatively, to execute the linters manually, run:
+```bash
+docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workdir /home/gradle/app gradle:7.4.2-jdk17 gradle --no-daemon formatKotlin detekt
+```
+
 ## Compilation
 
 To compile all classes in the project, run:
@@ -55,3 +73,6 @@ docker container run --rm --user gradle --volume "$PWD":/home/gradle/app --workd
 [2]: https://gradle.org
 [3]: https://kotlinlang.org
 [4]: https://docs.docker.com
+[5]: https://pre-commit.com
+[6]: https://github.com/pinterest/ktlint
+[7]: https://github.com/detekt/detekt
