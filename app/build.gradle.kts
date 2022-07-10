@@ -23,6 +23,12 @@ plugins {
 
   // Apply the Test Logger plugin to print test results in the test task.
   id("com.adarshr.test-logger") version "3.2.0"
+
+  // Apply the Kover plugin to better support Kotlin code coverage.
+  id("org.jetbrains.kotlinx.kover") version "0.5.0"
+
+  // Apply the Jacoco plugin to generate test coverage.
+  jacoco
 }
 
 repositories {
@@ -66,4 +72,10 @@ testlogger {
 // Enable support to JUnit Platform to execute JUnit 5 tests.
 tasks.test {
   useJUnitPlatform()
+  finalizedBy(tasks.jacocoTestReport)
+}
+
+// Require tests to run before generating the Jacoco test coverage report.
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
 }
