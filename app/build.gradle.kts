@@ -46,6 +46,19 @@ dependencies {
   // Use the Kotlin JDK 8 standard library.
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+  // Use Javalin to create a lightweight HTTP API.
+  implementation("io.javalin:javalin:4.6.4")
+
+  // Use SLF4J to setup a logger for Javalin.
+  implementation("org.slf4j:slf4j-simple:1.7.36")
+
+  // Use SLF4J to setup a logger for Javalin.
+  implementation("org.slf4j:slf4j-simple:1.7.36")
+
+  // Use Jackson as object serializer for Javalin.
+  implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
+
   // Use the Kotlin JUnit 5 integration.
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.6.21")
 
