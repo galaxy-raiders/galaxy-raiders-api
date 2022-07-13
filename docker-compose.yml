@@ -5,8 +5,14 @@ services:
     build:
       context: .
       target: "runner"
+    ports:
+      - "5000:5000"
     profiles:
       - "prod"
+    environment:
+      GR__APP__OPERATION_MODE: "${MODE:-Web}"
+    env_file:
+      - "configs.prod.env"
 
   # The `linter` service allows running all linters.
   # Whenever a file changes, Gradle will rerun detekt and ktlint.
@@ -20,6 +26,8 @@ services:
       - "./:/home/gradle/galaxy-raiders/"
     profiles:
       - "dev"
+    env_file:
+      - "configs.dev.env"
 
   # The `tester` service allows running all tests.
   # Whenever a file changes, JUnit will rerun all tests related to it.
@@ -33,6 +41,8 @@ services:
       - "./:/home/gradle/galaxy-raiders/"
     profiles:
       - "dev"
+    env_file:
+      - "configs.dev.env"
 
   # The `demo` service allows running the application.
   # Whenever a file changes, the app will be restarted automatically.
@@ -42,7 +52,19 @@ services:
       context: .
       target: "base"
     command: "gradle --continuous runShadow"
+    ports:
+      - "5000:5000"
     volumes:
       - "./:/home/gradle/galaxy-raiders/"
     profiles:
       - "dev"
+    environment:
+      GR__APP__RANDOM_SEED: "${SEED:-42}"
+      GR__APP__OPERATION_MODE: "${MODE:-Web}"
+      GR__CORE__GAME__GAME_ENGINE__FRAME_RATE: "${FPS:-60}"
+      GR__CORE__GAME__GAME_ENGINE__SPACEFIELD_WIDTH: "${HEIGHT:-54}"
+      GR__CORE__GAME__GAME_ENGINE__SPACEFIELD_HEIGHT: "${WIDTH:-36}"
+      GR__CORE__GAME__GAME_ENGINE__ASTEROID_PROBABILITY: "${ASTEROID:-0.05}"
+      GR__CORE__GAME__GAME_ENGINE__COEFFICIENT_RESTITUTION: "${CR:-1.0}"
+    env_file:
+      - "configs.dev.env"
