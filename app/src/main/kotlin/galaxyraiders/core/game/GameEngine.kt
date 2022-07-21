@@ -84,16 +84,31 @@ class GameEngine(
     this.handleCollisions()
     this.moveSpaceObjects()
     this.generateAsteroids()
+    this.handleExplosions()
   }
 
   fun handleCollisions() {
     this.field.spaceObjects.forEachPair {
         (first, second) ->
       if (first.impacts(second)) {
-        first.collideWith(second, GameEngineConfig.coefficientRestitution)
+        if(first.type == ("Missile") && second.type == ("Asteroid"))
+          this.generateExplosion(second)
+
+        if(first.type == ("Asteroid") && second.type == ("Missile"))
+          this.generateExplosion(first)
+
+        else
+           first.collideWith(second, GameEngineConfig.coefficientRestitution)
       }
     }
   }
+
+  fun handleExplosions() {
+    if (this.field.explosions.size > 20){
+      this.field.explosions.clear()
+    }
+  }
+
 
   fun moveSpaceObjects() {
     this.field.spaceObjects.forEach { it.move() }
@@ -105,6 +120,9 @@ class GameEngine(
     if (probability <= GameEngineConfig.asteroidProbability) {
       this.field.generateAsteroid()
     }
+  }
+  fun generateExplosion(spaceObject: SpaceObject) {
+    this.field.generateExplosion(spaceObject)
   }
 }
 
