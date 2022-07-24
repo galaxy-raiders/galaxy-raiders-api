@@ -205,7 +205,7 @@ class Vector2DTest {
 
   @ParameterizedTest(name = "({0}, {1})")
   @MethodSource("provideVectorAndVector2DProjectionArguments")
-  fun `it can be scalar projected into transversal vector `(vector: Vector2D, projection: Vector2D) {
+  fun `it can be vector projected into transversal vector `(vector: Vector2D, projection: Vector2D) {
     val target = Vector2D(25.0, 25.0)
     val resultProjection: Vector2D = vector.vectorProject(target)
 
