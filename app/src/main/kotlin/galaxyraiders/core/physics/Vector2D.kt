@@ -2,6 +2,8 @@
 package galaxyraiders.core.physics
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import kotlin.math.atan2
+import kotlin.math.sqrt
 
 @JsonIgnoreProperties("unit", "normal", "degree", "magnitude")
 data class Vector2D(val dx: Double, val dy: Double) {
@@ -10,46 +12,46 @@ data class Vector2D(val dx: Double, val dy: Double) {
   }
 
   val magnitude: Double
-    get() = INVALID_DOUBLE
+    get() = sqrt ((this.dx*this.dx) + (this.dy*this.dy))
 
   val radiant: Double
-    get() = INVALID_DOUBLE
+    get() = atan2(dy, dx)
 
   val degree: Double
-    get() = INVALID_DOUBLE
+    get() = (this.radiant)*180/Math.PI
 
   val unit: Vector2D
-    get() = INVALID_VECTOR
+    get() = Vector2D(this.dx/magnitude, this.dy/magnitude)
 
   val normal: Vector2D
-    get() = INVALID_VECTOR
+    get() =  Vector2D(unit.dy, -unit.dx)
 
   operator fun times(scalar: Double): Vector2D {
-    return INVALID_VECTOR
+    return Vector2D(scalar*this.dx, scalar*this.dy)
   }
 
   operator fun div(scalar: Double): Vector2D {
-    return INVALID_VECTOR
+    return Vector2D(this.dx/scalar, this.dy/scalar)
   }
 
   operator fun times(v: Vector2D): Double {
-    return INVALID_DOUBLE
+    return (v.dx*this.dx+v.dy*this.dy)
   }
 
   operator fun plus(v: Vector2D): Vector2D {
-    return INVALID_VECTOR
+    return Vector2D(this.dx+v.dx, this.dy+v.dy)
   }
 
   operator fun plus(p: Point2D): Point2D {
-    return INVALID_POINT
+    return Point2D(this.dx+p.x, this.dy+p.y)
   }
 
   operator fun unaryMinus(): Vector2D {
-    return INVALID_VECTOR
+    return Vector2D(-this.dx, -this.dy)
   }
 
   operator fun minus(v: Vector2D): Vector2D {
-    return INVALID_VECTOR
+    return Vector2D(this.dx-v.dx, this.dy-v.dy)
   }
 
   fun scalarProject(target: Vector2D): Double {
