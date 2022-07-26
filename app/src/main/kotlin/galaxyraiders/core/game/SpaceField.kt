@@ -12,6 +12,9 @@ object SpaceFieldConfig {
   val missileMass = config.get<Double>("MISSILE_MASS")
   val missileDistanceFromShip = config.get<Double>("MISSILE_DISTANCE_FROM_SHIP")
 
+  val explosionRadius = config.get<Double>("EXPLOSION_RADIUS")
+  val explosionMass = config.get<Double>("EXPLOSION_MASS")
+
   val asteroidMaxYaw = config.get<Double>("ASTEROID_MAX_YAW")
   val asteroidMinSpeed = config.get<Double>("ASTEROID_MIN_SPEED")
   val asteroidMaxSpeed = config.get<Double>("ASTEROID_MAX_SPEED")
@@ -97,6 +100,19 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
       radius = SpaceFieldConfig.missileRadius,
       mass = SpaceFieldConfig.missileMass,
     )
+  }
+
+  private fun createExplosion(missile: Missile, asteroid: Asteroid): Explosion { // added -- chamar quando houver caso de explosão (add parametros de pos de missil e asteroide)
+    return Explosion(
+      initialPosition = defineExplosionPosition(SpaceFieldConfig.explosionRadius /* passa pos do missil e do asteroid*/),
+      initialVelocity = Vector2D(0.0,0.0),
+      radius = SpaceFieldConfig.explosionRadius,
+      mass = SpaceFieldConfig.explosionMass, // talvez interessante mudar para calcular a massa?
+    )
+  }
+
+  private fun defineExplosionPosition(explosionRadius: Double /* passa pos do missil e do asteroid*/): Point2D { // added
+    return Point2D(0.0, 0.0) // mudar para ponto exato onde ocorre contato entre asteroide e missil
   }
 
   private fun defineMissilePosition(missileRadius: Double): Point2D {

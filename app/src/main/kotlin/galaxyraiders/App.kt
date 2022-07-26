@@ -25,11 +25,15 @@ fun main() {
     OperationMode.Web -> WebUserInterface()
   }
 
+  println(ui)
+
   val (controller, visualizer) = ui.build()
 
+  println(ui)
   val gameEngine = GameEngine(
     generator, controller, visualizer
   )
+  println(ui)
 
   thread { gameEngine.execute() }
 

@@ -7,7 +7,7 @@ import galaxyraiders.ports.ui.Controller.PlayerCommand
 import galaxyraiders.ports.ui.Visualizer
 import kotlin.system.measureTimeMillis
 
-const val MILLISECONDS_PER_SECOND: Int = 1000
+const val MILLISECONDS_PER_SECOND: Int = 5000
 
 object GameEngineConfig {
   private val config = Config(prefix = "GR__CORE__GAME__GAME_ENGINE__")

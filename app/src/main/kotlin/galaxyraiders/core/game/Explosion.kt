@@ -7,7 +7,6 @@ class Explosion(
   initialPosition: Point2D,
   initialVelocity: Vector2D,
   radius: Double,
-  mass: Double,
-  // isTriggered: Boolean
+  mass: Double
 ) :
-  SpaceObject("Explosion", '*', initialPosition, initialVelocity, radius, mass)
+  SpaceObject("Explosion", '*', initialPosition, initialVelocity, radius, mass) {}
