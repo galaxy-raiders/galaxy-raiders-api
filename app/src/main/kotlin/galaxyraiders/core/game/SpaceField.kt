@@ -98,7 +98,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
 
   private fun createMissile(): Missile {
     return Missile(
-      initialPosition = defineMissilePosition(SpaceFieldConfig.missiSleRadius),
+      initialPosition = defineMissilePosition(SpaceFieldConfig.missileRadius),
       initialVelocity = defineMissileVelocity(),
       radius = SpaceFieldConfig.missileRadius,
       mass = SpaceFieldConfig.missileMass,
