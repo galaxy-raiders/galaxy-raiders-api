@@ -14,6 +14,7 @@ object SpaceFieldConfig {
 
   val explosionRadius = config.get<Double>("EXPLOSION_RADIUS")
   val explosionMass = config.get<Double>("EXPLOSION_MASS")
+  val explosionCounter = config.get<Double>("EXPLOSION_COUNTER")
 
   val asteroidMaxYaw = config.get<Double>("ASTEROID_MAX_YAW")
   val asteroidMinSpeed = config.get<Double>("ASTEROID_MIN_SPEED")
@@ -37,7 +38,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
 
   var missiles: List<Missile> = emptyList()
     private set
-
+  // blah
   var explosions: List<Explosion> = emptyList()
     private set
 
@@ -79,6 +80,16 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     }
   }
 
+  fun endExplosions() {
+    this.explosions = this.explosions.filter {
+      it.counterUp()
+    }
+  }
+
+  fun updateExplosionCounters() {
+    this.explosions.forEach {it.counterDown()}
+  }
+
   private fun initializeShip(): SpaceShip {
     return SpaceShip(
       initialPosition = standardShipPosition(),
@@ -105,29 +116,37 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     )
   }
 
-  private fun createExplosion(missile: Missile): Explosion {
+
+  private fun createExplosion(explosionPosition: Point2D): Explosion {
     return Explosion(
-      initialPosition = defineExplosionPosition(missile),
+      initialPosition = explosionPosition,
       initialVelocity = Vector2D(0.0, 0.0),
       radius = SpaceFieldConfig.explosionRadius, // oi
       mass = SpaceFieldConfig.explosionMass, // talvez interessante mudar para calcular a massa?
+      counter = SpaceFieldConfig.explosionCounter
     )
   }
 
-  fun createExplosions() {
-    for (missil in this.missiles) {
-      for (asteroide in this.asteroids) {
-        if (missil.initialPosition.distance(asteroide.initialPosition) <= missil.radius + asteroide.radius
-        ) {
-          this.explosions += createExplosion(missil)
-        }
-      }
-    }
+  fun createExplosions(colisionPlace: Point2D) {
+    this.explosions += createExplosion(colisionPlace)
   }
+  // que
 
-  private fun defineExplosionPosition(missile: Missile): Point2D { // added
-    return missile.initialPosition // mudar para ponto exato onde ocorre contato entre asteroide e missil
-  }
+//
+//  fun createExplosions() {
+//    for (missil in this.missiles) {
+//      for (asteroide in this.asteroids) {
+//        if (missil.initialPosition.distance(asteroide.initialPosition) <= missil.radius + asteroide.radius
+//        ) {
+//          this.explosions += createExplosion(missil)
+//        }
+//      }
+//    }
+//  }
+//
+//  private fun defineExplosionPosition(missile: Missile): Point2D { // added
+//    return missile.initialPosition // mudar para ponto exato onde ocorre contato entre asteroide e missil
+//  }
 
   private fun defineMissilePosition(missileRadius: Double): Point2D {
     return ship.center + Vector2D(dx = 0.0, dy = ship.radius + missileRadius + SpaceFieldConfig.missileDistanceFromShip)

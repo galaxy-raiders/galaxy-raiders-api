@@ -82,20 +82,30 @@ class GameEngine(
     this.moveSpaceObjects()
     this.trimSpaceObjects()
     this.generateAsteroids()
-    this.createExplosions()
+//    this.createExplosions()
+    this.updateExplosionCounters()
+    this.endExplosions()
+  }
+
+  fun updateExplosionCounters() {
+    this.field.updateExplosionCounters()
+  }
+
+  fun endExplosions() {
+    this.field.endExplosions()
   }
 
   fun handleCollisions() {
     this.field.spaceObjects.forEachPair {
         (first, second) ->
       if (first.impacts(second)) {
-        //if(first.type == "Missile" && second.type == "Asteroid") {
-        //  this.field.createExplosion(first)
-        //}
-        //if(first.type == "Missile" && second.type == "Asteroid") {
-        //  this.field.createExplosion(second)
-        //}
-        
+        if(first.type == "Missile" && second.type == "Asteroid") {
+          this.field.createExplosions(first.center)
+        }
+        if(first.type == "Asteroid" && second.type == "Missile") {
+          this.field.createExplosions(second.center)
+        }
+
         first.collideWith(second, GameEngineConfig.coefficientRestitution)
       }
     }
@@ -120,9 +130,9 @@ class GameEngine(
     }
   }
 
-  fun createExplosions() {
-    this.field.createExplosions()
-  }
+//  fun createExplosions() {
+//    this.field.createExplosions()
+//  }
 
   fun renderSpaceField() {
     this.visualizer.renderSpaceField(this.field)
