@@ -45,7 +45,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     private set
 
   val spaceObjects: List<SpaceObject>
-    get() = listOf(this.ship) + this.missiles + this.asteroids
+    get() = listOf(this.ship) + this.missiles + this.asteroids + this.explosions
 
   fun moveShip() {
     this.ship.move(boundaryX, boundaryY)
@@ -109,7 +109,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     return Explosion(
       initialPosition = defineExplosionPosition(missile),
       initialVelocity = Vector2D(0.0, 0.0),
-      radius = SpaceFieldConfig.explosionRadius,
+      radius = SpaceFieldConfig.explosionRadius, // oi
       mass = SpaceFieldConfig.explosionMass, // talvez interessante mudar para calcular a massa?
     )
   }
