@@ -3,6 +3,9 @@ package galaxyraiders.core.game
 import galaxyraiders.Config
 import galaxyraiders.core.physics.Point2D
 import galaxyraiders.core.physics.Vector2D
+import galaxyraiders.core.game.Asteroid  //
+import galaxyraiders.core.game.Missile   //
+import galaxyraiders.core.game.Explosion //
 import galaxyraiders.ports.RandomGenerator
 
 object SpaceFieldConfig {
@@ -38,6 +41,9 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   var missiles: List<Missile> = emptyList()
     private set
 
+  var explosions: List<Explosion> = emptyList()
+    private set
+
   var asteroids: List<Asteroid> = emptyList()
     private set
 
@@ -57,7 +63,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   }
 
   fun generateMissile() {
-    this.missiles += this.createMissile()
+    this.missiles += this.createMissile() 
   }
 
   fun generateAsteroid() {
@@ -65,7 +71,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   }
 
   fun trimMissiles() {
-    this.missiles = this.missiles.filter {
+    this.missiles = this.missiles.filter { 
       it.inBoundaries(this.boundaryX, this.boundaryY)
     }
   }
@@ -102,22 +108,34 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     )
   }
 
-  private fun createExplosion(missile: Missile, asteroid: Asteroid): Explosion { // added -- chamar quando houver caso de explosão (add parametros de pos de missil e asteroide)
+  private fun createExplosion(missile: Missile): Explosion { // added -- chamar quando houver caso de explosão (add parametros de pos de missil e asteroide)
     return Explosion(
-      initialPosition = defineExplosionPosition(SpaceFieldConfig.explosionRadius /* passa pos do missil e do asteroid*/),
+      initialPosition = defineExplosionPosition(missile),
       initialVelocity = Vector2D(0.0,0.0),
       radius = SpaceFieldConfig.explosionRadius,
       mass = SpaceFieldConfig.explosionMass, // talvez interessante mudar para calcular a massa?
     )
   }
 
-  private fun defineExplosionPosition(explosionRadius: Double /* passa pos do missil e do asteroid*/): Point2D { // added
-    return Point2D(0.0, 0.0) // mudar para ponto exato onde ocorre contato entre asteroide e missil
+  fun createExplosions() { 
+    for (missil in this.missiles) {
+      for (asteroide in this.asteroids) { 
+        if  (missil.initialPosition.distance(asteroide.initialPosition) 
+        <= missil.radius + asteroide.radius) {
+          this.explosions += createExplosion(missil)
+        } 
+      }
+    }
+
+  }
+
+  private fun defineExplosionPosition(missile: Missile): Point2D { // added
+    return missile.initialPosition // mudar para ponto exato onde ocorre contato entre asteroide e missil
   }
 
   private fun defineMissilePosition(missileRadius: Double): Point2D {
     return ship.center + Vector2D(dx = 0.0, dy = ship.radius + missileRadius + SpaceFieldConfig.missileDistanceFromShip)
-  }
+  } 
 
   private fun defineMissileVelocity(): Vector2D {
     return Vector2D(dx = 0.0, dy = 1.0)
