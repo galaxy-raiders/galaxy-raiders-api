@@ -9,4 +9,4 @@ class Explosion(
   radius: Double,
   mass: Double
 ) :
-  SpaceObject("Explosion", '*', initialPosition, initialVelocity, radius, mass) {}
+  SpaceObject("Explosion", '*', initialPosition, initialVelocity, radius, mass)
