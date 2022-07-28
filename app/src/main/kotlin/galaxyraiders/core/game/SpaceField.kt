@@ -130,23 +130,6 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   fun createExplosions(colisionPlace: Point2D) {
     this.explosions += createExplosion(colisionPlace)
   }
-  // que
-
-//
-//  fun createExplosions() {
-//    for (missil in this.missiles) {
-//      for (asteroide in this.asteroids) {
-//        if (missil.initialPosition.distance(asteroide.initialPosition) <= missil.radius + asteroide.radius
-//        ) {
-//          this.explosions += createExplosion(missil)
-//        }
-//      }
-//    }
-//  }
-//
-//  private fun defineExplosionPosition(missile: Missile): Point2D { // added
-//    return missile.initialPosition // mudar para ponto exato onde ocorre contato entre asteroide e missil
-//  }
 
   private fun defineMissilePosition(missileRadius: Double): Point2D {
     return ship.center + Vector2D(dx = 0.0, dy = ship.radius + missileRadius + SpaceFieldConfig.missileDistanceFromShip)
