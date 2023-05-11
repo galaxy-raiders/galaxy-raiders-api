@@ -30,7 +30,7 @@ pre-commit run --all-files
 
 Alternatively, to execute the linters manually, run:
 ```bash
-docker compose --profile dev run --rm linter
+docker-compose --profile dev run --rm linter
 ```
 
 ## Compilation
@@ -40,12 +40,12 @@ JAR is made "behind the scenes" by [docker][4].
 
 To build the development images, run:
 ```bash
-docker compose --profile dev build
+docker-compose --profile dev build
 ```
 
 To build the production images, run:
 ```bash
-docker compose --profile prod build
+docker-compose --profile prod build
 ```
 
 ## Tests
@@ -54,31 +54,31 @@ All tests in the project are developed using [JUnit 5][8].
 
 To execute all tests (with live reload), run:
 ```bash
-docker compose --profile dev up tester
+docker-compose --profile dev up tester
 ```
 
 ## Execution
 
 To execute the project in development mode (with live reload), run:
 ```bash
-docker compose --profile dev up demo --build
+docker-compose --profile dev up demo --build
 ```
 
 To execute the project in production mode, run:
 ```bash
-docker compose --profile prod up game --build
+docker-compose --profile prod up game --build
 ```
 
 ## Other tasks
 
 To find available gradle tasks, run:
 ```bash
-docker compose --profile dev run --rm demo gradle --no-daemon tasks
+docker-compose --profile dev run --rm demo gradle --no-daemon tasks
 ```
 
 To execute any task, run:
 ```bash
-docker compose --profile dev run --rm demo gradle --no-daemon {task}
+docker-compose --profile dev run --rm demo gradle --no-daemon {task}
 ```
 
 [1]: https://uspdigital.usp.br/jupiterweb/obterDisciplina?sgldis=MAC0218
