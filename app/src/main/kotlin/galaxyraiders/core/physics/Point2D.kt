@@ -59,7 +59,8 @@ data class Point2D(val x: Double, val y: Double) {
    * @return A Vector2D object that represents the impact vector.
    */
   fun impactVector(p: Point2D): Vector2D {
-    return Vector2D(p.x - x, p.y - y)
+    // return Vector2D(p.x - x, p.y - y)
+    return p.toVector() - this.toVector()
   }
 
   /**

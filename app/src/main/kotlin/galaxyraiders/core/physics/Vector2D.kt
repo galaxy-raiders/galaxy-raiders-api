@@ -42,13 +42,13 @@ data class Vector2D(val dx: Double, val dy: Double) {
    * Calculates the angle of this Vector2D in degrees.
    */
   val degree: Double
-    get() = radiant * 180 / kotlin.math.PI
+    get() = radiant * 180.0 / Math.PI
 
   /**
    * Returns a unit vector of this Vector2D.
    */
   val unit: Vector2D
-    get() = Vector2D(dx / magnitude, dy / magnitude)
+    get() = this / magnitude
 
   /**
    * Returns a normal Vector2D to this Vector2D.
@@ -73,7 +73,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
    * @return A Vector2D object with the result.
    */
   operator fun div(scalar: Double): Vector2D {
-    return 1/scalar * this
+    return (1/scalar) * this
   }
 
   /**
@@ -103,7 +103,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
    * @return A Point2D object with the result.
    */
   operator fun plus(p: Point2D): Point2D {
-    return Point2D(dx + p.x, dy + p.y)
+    return p + this
   }
 
   /**
@@ -122,7 +122,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
    * @return A Vector2D object with the result.
    */
     operator fun minus(v: Vector2D): Vector2D {
-    return this + v.unaryMinus()
+    return this + (-v)
   }
 
   /**
