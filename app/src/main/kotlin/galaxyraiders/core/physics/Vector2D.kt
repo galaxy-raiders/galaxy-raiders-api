@@ -6,6 +6,8 @@ import kotlin.math.pow
 import kotlin.math.sign
 import kotlin.math.sqrt
 
+const val HALFDEGREE: Double = 180.0
+
 @JsonIgnoreProperties("unit", "normal", "degree", "magnitude")
 data class Vector2D(val dx: Double, val dy: Double) {
   override fun toString(): String {
@@ -19,7 +21,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
     get() = acos(dx / magnitude) * sign(dy)
 
   val degree: Double
-    get() = radiant * 180 / Math.PI
+    get() = radiant * HALFDEGREE / Math.PI
 
   val unit: Vector2D
     get() = Vector2D(dx / magnitude, dy / magnitude)
