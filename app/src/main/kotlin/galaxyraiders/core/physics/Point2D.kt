@@ -21,19 +21,19 @@ data class Point2D(val x: Double, val y: Double) {
   }
 
   fun impactVector(p: Point2D): Vector2D {
-    return toVector() - p.toVector()
+    return p.toVector() - toVector ()
   }
 
   fun impactDirection(p: Point2D): Vector2D {
-    return (impactVector(p)).unit
+    return impactVector(p).unit
   }
 
   fun contactVector(p: Point2D): Vector2D {
-    return (-impactVector(p)).unit
+    return impactVector(p).normal
   }
 
   fun contactDirection(p: Point2D): Vector2D {
-    return (-impactVector(p)).unit.normal
+    return contactVector(p).unit
   }
 
   fun distance(p: Point2D): Double {

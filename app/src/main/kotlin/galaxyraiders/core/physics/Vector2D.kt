@@ -3,7 +3,6 @@ package galaxyraiders.core.physics
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import kotlin.math.atan2
 import kotlin.math.hypot
-import kotlin.math.toDegrees
 
 @JsonIgnoreProperties("unit", "normal", "degree", "magnitude")
 data class Vector2D(val dx: Double, val dy: Double) {
@@ -19,13 +18,13 @@ data class Vector2D(val dx: Double, val dy: Double) {
     get() = atan2(dy, dx)
 
   val degree: Double
-    get() = radiant.toDegrees()
+    get() = radiant * 180 / Math.PI
 
   val unit: Vector2D
     get() = this / magnitude
 
   val normal: Vector2D
-    get() = Vector2D(-dy, dx)
+    get() = Vector2D(dy, -dx).unit
 
   operator fun times(scalar: Double): Vector2D {
     return Vector2D(dx * scalar, dy * scalar)
@@ -44,7 +43,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
   }
 
   operator fun plus(p: Point2D): Point2D {
-    return Point2D(x + dx, y + dy)
+    return Point2D(p.x + dx, p.y + dy)
   }
 
   operator fun unaryMinus(): Vector2D {
