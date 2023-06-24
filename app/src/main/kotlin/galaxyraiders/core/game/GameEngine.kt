@@ -5,7 +5,12 @@ import galaxyraiders.ports.RandomGenerator
 import galaxyraiders.ports.ui.Controller
 import galaxyraiders.ports.ui.Controller.PlayerCommand
 import galaxyraiders.ports.ui.Visualizer
+import java.io.File
+import java.io.FileWriter
 import kotlin.system.measureTimeMillis
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.Serializable
 
 const val MILLISECONDS_PER_SECOND: Int = 1000
 
@@ -37,6 +42,13 @@ class GameEngine(
 
   var score: Double = 0.0
 
+  fun saveScore() {
+    val file = File("/home/gradle/galaxy-raiders/app/src/main/kotlin/galaxyraiders/core/score/Scoreboard.json")
+    val writer = FileWriter(file)
+    writer.write("Hello World!")
+    writer.close()
+  }
+
   fun execute() {
     while (true) {
       val duration = measureTimeMillis { this.tick() }
@@ -57,6 +69,7 @@ class GameEngine(
     this.processPlayerInput()
     this.updateSpaceObjects()
     this.renderSpaceField()
+    this.saveScore()
   }
 
   fun processPlayerInput() {

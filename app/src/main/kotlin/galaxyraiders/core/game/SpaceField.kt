@@ -103,7 +103,7 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
     var newExplosions: List<Explosion> = emptyList()
     for (i in 0 until numExplosions) {
       this.explosions[i].ticksRemaining -= 1
-      if (this.explosions[i].radius > 0) {
+      if (this.explosions[i].ticksRemaining > 0) {
         newExplosions += this.explosions[i]
       }
     }

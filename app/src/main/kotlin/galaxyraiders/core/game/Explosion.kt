@@ -11,7 +11,7 @@ class Explosion(
 ) :
   SpaceObject("Explosion", 'x', initialPosition, initialVelocity, radius, mass) {
   companion object {
-    const val initialTicks: Int = 10
+    const val initialTicks: Int = 100
   }
   var ticksRemaining: Int = initialTicks
 }
