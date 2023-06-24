@@ -59,9 +59,6 @@ dependencies {
   implementation("com.fasterxml.jackson.core:jackson-databind:2.13.3")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3")
 
-	// Use Kotlin's json serialization library
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
-
   // Use the Kotlin JUnit 5 integration.
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.6.21")
 

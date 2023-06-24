@@ -8,9 +8,6 @@ import galaxyraiders.ports.ui.Visualizer
 import java.io.File
 import java.io.FileWriter
 import kotlin.system.measureTimeMillis
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.Serializable
 
 const val MILLISECONDS_PER_SECOND: Int = 1000
 
