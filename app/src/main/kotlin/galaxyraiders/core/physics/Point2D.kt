@@ -21,7 +21,7 @@ data class Point2D(val x: Double, val y: Double) {
   }
 
   fun impactVector(p: Point2D): Vector2D {
-    return p.toVector() - toVector ()
+    return p.toVector() - toVector()
   }
 
   fun impactDirection(p: Point2D): Vector2D {

@@ -38,6 +38,9 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
   var asteroids: List<Asteroid> = emptyList()
     private set
 
+  var explosions: List<Explosion> = emptyList()
+    private set
+
   val spaceObjects: List<SpaceObject>
     get() = listOf(this.ship) + this.missiles + this.asteroids
 
@@ -51,6 +54,61 @@ data class SpaceField(val width: Int, val height: Int, val generator: RandomGene
 
   fun moveAsteroids() {
     this.asteroids.forEach { it.move() }
+  }
+
+  fun handleMissileAsteroidCollisions(): Double {
+    val numMissiles = this.missiles.size
+    val numAsteroids = this.asteroids.size
+    val eraseMissile = BooleanArray(numMissiles)
+    val explodeAsteroid = BooleanArray(numAsteroids)
+
+    var deltaScore: Double = 0.0
+
+    for (i in 0 until numMissiles) {
+      for (j in 0 until numAsteroids) {
+        if (this.missiles[i].impacts(this.asteroids[j])) {
+          eraseMissile[i] = true
+          explodeAsteroid[j] = true
+        }
+      }
+    }
+
+    var newAsteroids: List<Asteroid> = emptyList()
+    var newMissiles: List<Missile> = emptyList()
+
+    for (i in 0 until numAsteroids) {
+      if (!explodeAsteroid[i]) {
+        newAsteroids += this.asteroids[i]
+      } else {
+        deltaScore += this.asteroids[i].radius * this.asteroids[i].mass
+        this.explosions += this.asteroids[i].explosion()
+      }
+    }
+
+    for (i in 0 until numMissiles) {
+      if (!eraseMissile[i]) {
+        newMissiles += this.missiles[i]
+      }
+    }
+
+    this.asteroids = newAsteroids
+    this.missiles = newMissiles
+
+    return deltaScore
+  }
+
+  fun handleExplosions() {
+    val numExplosions = this.explosions.size
+
+    var newExplosions: List<Explosion> = emptyList()
+    for (i in 0 until numExplosions) {
+      this.explosions[i].ticksRemaining -= 1
+      if (this.explosions[i].radius > 0) {
+        newExplosions += this.explosions[i]
+      }
+    }
+
+    this.explosions = newExplosions
   }
 
   fun generateMissile() {

@@ -1,6 +1,7 @@
 package galaxyraiders.adapters.web
 
 import galaxyraiders.core.game.Asteroid
+import galaxyraiders.core.game.Explosion
 import galaxyraiders.core.game.Missile
 import galaxyraiders.core.game.SpaceField
 import galaxyraiders.core.game.SpaceShip
@@ -14,6 +15,7 @@ class SpaceFieldRouter : Router, Visualizer {
     val ship: SpaceShip,
     val asteroids: List<Asteroid>,
     val missiles: List<Missile>,
+    val explosions: List<Explosion>,
   )
 
   var dto: SpaceFieldDTO? = null
@@ -34,6 +36,7 @@ class SpaceFieldRouter : Router, Visualizer {
       ship = field.ship,
       asteroids = field.asteroids,
       missiles = field.missiles,
+      explosions = field.explosions
     )
   }
 }

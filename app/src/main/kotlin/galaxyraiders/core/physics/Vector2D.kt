@@ -4,8 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import kotlin.math.atan2
 import kotlin.math.hypot
 
+// val magic: Double = 180
+
 @JsonIgnoreProperties("unit", "normal", "degree", "magnitude")
 data class Vector2D(val dx: Double, val dy: Double) {
+  companion object {
+    const val degrees: Double = 180.0
+  }
 
   override fun toString(): String {
     return "Vector2D(dx=$dx, dy=$dy)"
@@ -18,7 +23,7 @@ data class Vector2D(val dx: Double, val dy: Double) {
     get() = atan2(dy, dx)
 
   val degree: Double
-    get() = radiant * 180 / Math.PI
+    get() = radiant * degrees / Math.PI
 
   val unit: Vector2D
     get() = this / magnitude

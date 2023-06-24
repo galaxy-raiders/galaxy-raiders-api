@@ -35,6 +35,8 @@ class GameEngine(
 
   var playing = true
 
+  var score: Double = 0.0
+
   fun execute() {
     while (true) {
       val duration = measureTimeMillis { this.tick() }
@@ -78,10 +80,16 @@ class GameEngine(
 
   fun updateSpaceObjects() {
     if (!this.playing) return
+    this.handleExplosions()
     this.handleCollisions()
+    this.handleMissileAsteroidCollisions()
     this.moveSpaceObjects()
     this.trimSpaceObjects()
     this.generateAsteroids()
+  }
+
+  fun handleExplosions() {
+    this.field.handleExplosions()
   }
 
   fun handleCollisions() {
@@ -91,6 +99,10 @@ class GameEngine(
         first.collideWith(second, GameEngineConfig.coefficientRestitution)
       }
     }
+  }
+
+  fun handleMissileAsteroidCollisions() {
+    this.score += this.field.handleMissileAsteroidCollisions()
   }
 
   fun moveSpaceObjects() {
